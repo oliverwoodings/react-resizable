@@ -66,6 +66,8 @@ var ResizableBox = module.exports = React.createClass({
       <Resizable
         minConstraints={minConstraints}
         maxConstraints={maxConstraints}
+        onResizeStart={this.props.onResizeStart}
+        onResizeStop={this.props.onResizeStop}
         handleSize={handleSize}
         width={this.state.width}
         height={this.state.height}
