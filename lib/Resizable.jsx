@@ -31,12 +31,26 @@ var Resizable = module.exports = React.createClass({
     };
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       bounds: this.constraintsToBounds(),
       initialWidth: this.props.width,
       initialHeight: this.props.height
     };
+  },
+
+  componentWillReceiveProps(props) {
+    var widthDifferent = props.width !== this.props.width;
+    var heightDifferent = props.height !== this.props.height;
+    var boundsDifferent = JSON.stringify(props.bounds) !== JSON.stringify(this.props.bounds);
+    if (!this.state.resizing && (widthDifferent || heightDifferent || boundsDifferent)) {
+      this.setState({
+        initialWidth: props.width,
+        initialHeight: props.height,
+        bounds: this.constraintsToBounds(props)
+      });
+      this.refs.draggable.resetState();
+    }
   },
 
   constraintsToBounds() {

@@ -43,11 +43,14 @@ var Resizable = module.exports = React.createClass({
   },
 
   componentWillReceiveProps: function componentWillReceiveProps(props) {
-    if (!this.state.resizing) {
+    var widthDifferent = props.width !== this.props.width;
+    var heightDifferent = props.height !== this.props.height;
+    var boundsDifferent = JSON.stringify(props.bounds) !== JSON.stringify(this.props.bounds);
+    if (!this.state.resizing && (widthDifferent || heightDifferent || boundsDifferent)) {
       this.setState({
         initialWidth: props.width,
         initialHeight: props.height,
-        bounds: this.constraintsToBounds()
+        bounds: this.constraintsToBounds(props)
       });
       this.refs.draggable.resetState();
     }
